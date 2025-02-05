@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { useCategoriesStore } from '@/stores/categories.ts'
+import { getCategories } from '@/api/ecwidApi.ts'
+import { storeId, storeToken } from '@/config.ts'
+
+const categoriesStore = useCategoriesStore()
+
+getCategories(storeId, storeToken).then((data) => {
+  categoriesStore.setCategories(data.items)
+})
 </script>
 
 <template>
