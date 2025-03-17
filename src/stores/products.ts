@@ -4,9 +4,11 @@ import { computed, ref, toRaw } from 'vue'
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref<Map<number, Array<ProductData>>>(new Map())
+  const productsInfo = ref<Map<number, ProductData>>(new Map())
 
   function addProduct(categoryId: number, product: ProductData) {
     const prevState = products.value.get(categoryId)
+    productsInfo.value.set(product.id, product)
     if (!prevState) {
       products.value.set(categoryId, [product])
       return
@@ -29,5 +31,9 @@ export const useProductsStore = defineStore('products', () => {
     console.log(`Products for category ${categoryId}: `, products.value)
   }
 
-  return { getProductsByCategoryId, addProduct, setProducts }
+  function getProductById(id: number) {
+    return computed(() => productsInfo.value.get(id))
+  }
+
+  return { getProductsByCategoryId, addProduct, setProducts, getProductById }
 })

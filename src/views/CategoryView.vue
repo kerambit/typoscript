@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import { useCategoriesStore } from '@/stores/categories.ts'
 import { useProductsStore } from '@/stores/products.ts'
 import { searchProducts } from '@/api/ecwidApi.ts'
@@ -11,7 +10,6 @@ const props = defineProps<{
   id: string
 }>()
 
-const route = useRoute()
 const categoriesStore = useCategoriesStore()
 const cartStore = useCartStore()
 const category = categoriesStore.getCategory(Number(props.id))
@@ -47,9 +45,15 @@ function addToCart(productId: number) {
           :key="product.id"
           class="bg-white shadow-md rounded-lg overflow-hidden p-4"
         >
-          <img :src="product.imageUrl" :alt="product.name" class="w-full h-48 object-cover mb-4" />
-          <h2 class="text-xl font-semibold mb-2">{{ product.name }}</h2>
-          <p class="text-lg font-bold mb-4">{{ product.price }} $</p>
+          <RouterLink :to="{ name: 'product', params: { id: product.id } }">
+            <img
+              :src="product.imageUrl"
+              :alt="product.name"
+              class="w-full h-48 object-cover mb-4"
+            />
+            <h2 class="text-xl font-semibold mb-2">{{ product.name }}</h2>
+            <p class="text-lg font-bold mb-4">{{ product.price }} $</p>
+          </RouterLink>
           <button
             class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
             :class="{ bounce: animateButtons[product.id] }"
