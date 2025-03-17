@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   categoryName: string
   alt: string
 }>()
