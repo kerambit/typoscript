@@ -4,8 +4,11 @@ import HelloWorld from './components/HelloWorld.vue'
 import { useCategoriesStore } from '@/stores/categories.ts'
 import { getCategories } from '@/api/ecwidApi.ts'
 import { storeId, storeToken } from '@/config.ts'
+import { useCartStore } from '@/stores/cart.ts'
 
 const categoriesStore = useCategoriesStore()
+const cartStore = useCartStore()
+const currentCart = cartStore.getCartSize()
 
 getCategories(storeId, storeToken).then((data) => {
   categoriesStore.setCategories(data.items)
@@ -22,6 +25,7 @@ getCategories(storeId, storeToken).then((data) => {
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink :to="{ name: 'cart' }">Cart({{ currentCart }})</RouterLink>
       </nav>
     </div>
   </header>

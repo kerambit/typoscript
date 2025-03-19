@@ -37,6 +37,10 @@ export const useCartStore = defineStore('cart', () => {
     cart.value = new Map()
   }
 
+  function getCartSize() {
+    return computed(() => Array.from(cart.value.values()).reduce((acc, curr) => acc + curr, 0))
+  }
+
   watch(
     cart,
     (newCart) => {
@@ -45,5 +49,5 @@ export const useCartStore = defineStore('cart', () => {
     { deep: true },
   )
 
-  return { addProduct, removeProduct, getCart }
+  return { addProduct, removeProduct, getCart, clearCart, getCartSize }
 })
