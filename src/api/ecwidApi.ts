@@ -1,4 +1,8 @@
-import type { SearchCategoriesResponse, SearchProductsResponse } from '@/api/ecwidApi.types.ts'
+import type {
+  ProductData,
+  SearchCategoriesResponse,
+  SearchProductsResponse,
+} from '@/api/ecwidApi.types.ts'
 
 async function fetchWithHandlingError<T>(fetchFn: Promise<Response>, defaultValue: T): Promise<T> {
   try {
@@ -56,5 +60,25 @@ export async function searchProducts(
       },
     }),
     { count: 0, limit: 0, offset: 0, total: 0, items: [] },
+  )
+}
+
+export async function getProduct(
+  storeId: number,
+  token: string,
+  productId: number,
+): Promise<ProductData | undefined> {
+  const url = `https://app.ecwid.com/api/v3/${storeId}/products/${productId}`
+
+  return await fetchWithHandlingError<ProductData | undefined>(
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+    undefined,
   )
 }

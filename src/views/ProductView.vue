@@ -44,6 +44,9 @@ import { useProductsStore } from '@/stores/products.ts'
 import { useCartStore } from '@/stores/cart.ts'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { storeId, storeToken } from '@/config.ts'
+import { getProduct } from '@/api/ecwidApi.ts'
+import type { ProductData } from '@/api/ecwidApi.types.ts'
 
 const props = defineProps<{
   id: string
@@ -53,10 +56,18 @@ const router = useRouter()
 
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
-const productData = productsStore.getProductById(Number(props.id)) //TODO: implement failover if productData is undefined
+const productData = productsStore.getProductById(Number(props.id))
 const isBouncing = ref(false)
 
-console.log(productData.value)
+if (productData.value === undefined) {
+  getProduct(storeId, storeToken, Number(props.id)).then((data: ProductData | undefined) => {
+    if (!data) return
+
+    for (const categoryId of data.categoryIds) {
+      productsStore.addProduct(categoryId, data)
+    }
+  })
+}
 
 const addProduct = () => {
   isBouncing.value = true
