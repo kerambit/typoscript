@@ -3,7 +3,13 @@ import type { ProductData } from '@/api/ecwidApi.types.ts'
 import { computed, ref, toRaw } from 'vue'
 
 export const useProductsStore = defineStore('products', () => {
+  /**
+   * Map<categoryId, Array<ProductData>>
+   */
   const products = ref<Map<number, Array<ProductData>>>(new Map())
+  /**
+   * Map<productId, ProductData>
+   */
   const productsInfo = ref<Map<number, ProductData>>(new Map())
 
   function addProduct(categoryId: number, product: ProductData) {
