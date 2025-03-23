@@ -1,20 +1,3 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { useCategoriesStore } from '@/stores/categories.ts'
-import { getCategories } from '@/api/ecwidApi.ts'
-import { storeId, storeToken } from '@/config.ts'
-import { useCartStore } from '@/stores/cart.ts'
-
-const categoriesStore = useCategoriesStore()
-const cartStore = useCartStore()
-const currentCart = cartStore.getCartSize()
-
-getCategories(storeId, storeToken).then((data) => {
-  categoriesStore.setCategories(data.items)
-})
-</script>
-
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
@@ -32,6 +15,23 @@ getCategories(storeId, storeToken).then((data) => {
 
   <RouterView />
 </template>
+
+<script setup lang="ts">
+import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from './components/HelloWorld.vue'
+import { useCategoriesStore } from '@/stores/categories.ts'
+import { getCategories } from '@/api/ecwidApi.ts'
+import { storeId, storeToken } from '@/config.ts'
+import { useCartStore } from '@/stores/cart.ts'
+
+const categoriesStore = useCategoriesStore()
+const cartStore = useCartStore()
+const currentCart = cartStore.getCartSize()
+
+getCategories(storeId, storeToken).then((data) => {
+  categoriesStore.setCategories(data.items)
+})
+</script>
 
 <style scoped>
 header {
