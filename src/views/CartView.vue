@@ -62,15 +62,14 @@ if (cartItems.value.size > 0) {
   for (const [id, _] of cartItems.value) {
     const product = productsStore.getProductById(id)
     if (!product.value) {
-      getProduct(storeId, storeToken, id).then((productData: ProductData | undefined) => {
-        if (!productData) return
+      productsStore
+        .restoreProduct(storeId, storeToken, id)
+        .then((productData: ProductData | undefined) => {
+          if (!productData) return
 
-        for (const categoryId of productData.categoryIds) {
-          productsStore.addProduct(categoryId, productData)
-        }
+          products.value.push(productData)
+        })
 
-        products.value.push(productData)
-      })
       continue
     }
 

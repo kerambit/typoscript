@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { ProductData } from '@/api/ecwidApi.types.ts'
 import { computed, ref, toRaw } from 'vue'
+import { getProduct } from '@/api/ecwidApi.ts'
 
 export const useProductsStore = defineStore('products', () => {
   /**
@@ -41,5 +42,22 @@ export const useProductsStore = defineStore('products', () => {
     return computed(() => productsInfo.value.get(id))
   }
 
-  return { getProductsByCategoryId, addProduct, setProducts, getProductById }
+  async function restoreProduct(
+    storeId: number,
+    token: string,
+    productId: number,
+  ): Promise<ProductData | undefined> {
+    const product = await getProduct(storeId, token, productId)
+    if (!product) {
+      return
+    }
+
+    for (const categoryId of product.categoryIds) {
+      addProduct(categoryId, product)
+    }
+
+    return product
+  }
+
+  return { getProductsByCategoryId, addProduct, setProducts, getProductById, restoreProduct }
 })
