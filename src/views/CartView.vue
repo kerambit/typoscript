@@ -48,6 +48,8 @@ import { useCartStore } from '@/stores/cart.ts'
 import { useProductsStore } from '@/stores/products.ts'
 import { ref, toRaw } from 'vue'
 import type { ProductData } from '@/api/ecwidApi.types.ts'
+import { getProduct } from '@/api/ecwidApi.ts'
+import { storeId, storeToken } from '@/config.ts'
 
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
@@ -60,6 +62,15 @@ if (cartItems.value.size > 0) {
   for (const [id, _] of cartItems.value) {
     const product = productsStore.getProductById(id)
     if (!product.value) {
+      getProduct(storeId, storeToken, id).then((productData: ProductData | undefined) => {
+        if (!productData) return
+
+        for (const categoryId of productData.categoryIds) {
+          productsStore.addProduct(categoryId, productData)
+        }
+
+        products.value.push(productData)
+      })
       continue
     }
 
