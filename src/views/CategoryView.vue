@@ -35,7 +35,7 @@ import { useCategoriesStore } from '@/stores/categories.ts'
 import { useProductsStore } from '@/stores/products.ts'
 import { searchProducts } from '@/api/ecwidApi.ts'
 import { storeId, storeToken } from '@/config.ts'
-import { reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useCartStore } from '@/stores/cart.ts'
 
 const props = defineProps<{
@@ -47,14 +47,12 @@ const cartStore = useCartStore()
 const category = categoriesStore.getCategory(Number(props.id))
 
 const productsStore = useProductsStore()
-let products = productsStore.getProductsByCategoryId(Number(props.id))
+const productsData = ref(productsStore.getProductsByCategoryId(Number(props.id)))
+const products = computed(() => productsData.value)
 
-if (products.value === undefined) {
-  searchProducts(storeId, storeToken, Number(props.id)).then((data) => {
-    productsStore.setProducts(Number(props.id), data.items)
-    products = productsStore.getProductsByCategoryId(Number(props.id))
-  })
-}
+searchProducts(storeId, storeToken, Number(props.id)).then((data) => {
+  productsStore.setProducts(Number(props.id), data.items)
+})
 
 const animateButtons = reactive<{ [key: number]: boolean }>({})
 
