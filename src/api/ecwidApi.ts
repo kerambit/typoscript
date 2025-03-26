@@ -22,7 +22,7 @@ async function fetchWithHandlingError<T>(fetchFn: Promise<Response>, defaultValu
 export async function getCategories(
   storeId: number,
   token: string,
-  searchParams: Record<string, string>,
+  searchParams?: Record<string, string>,
 ): Promise<SearchCategoriesResponse> {
   let url = `https://app.ecwid.com/api/v3/${storeId}/categories`
 
