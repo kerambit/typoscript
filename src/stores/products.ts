@@ -32,7 +32,6 @@ export const useProductsStore = defineStore('products', () => {
   }
 
   function getProductsByCategoryId(id: number) {
-    console.log(`Getting products for category ${id}`, products.value.get(id))
     return computed(() => products.value.get(id))
   }
 
@@ -40,8 +39,6 @@ export const useProductsStore = defineStore('products', () => {
     for (const product of newProducts) {
       addProduct(categoryId, product)
     }
-
-    console.log(`Products for category ${categoryId}: `, products.value)
   }
 
   function getProductById(id: number) {

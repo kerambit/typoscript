@@ -21,8 +21,6 @@ export const useCategoriesStore = defineStore('categories', () => {
     for await (const category of items) {
       addCategory(category)
     }
-
-    console.log('Categories:', categories.value)
   }
 
   return { getCategories, getCategory, addCategory, setCategories }
