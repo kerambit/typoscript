@@ -80,6 +80,7 @@ if (cartItems.value.size > 0) {
 
 const removeFromCart = (id: number) => {
   cartStore.removeProduct(id)
+  products.value = products.value.filter((product) => product.id !== id)
 }
 
 const clearCart = () => {
