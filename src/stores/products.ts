@@ -15,6 +15,11 @@ export const useProductsStore = defineStore('products', () => {
 
   function addProduct(categoryId: number, product: ProductData) {
     const prevState = products.value.get(categoryId)
+
+    if (productsInfo.value.has(product.id)) {
+      return
+    }
+
     productsInfo.value.set(product.id, product)
     if (!prevState) {
       products.value.set(categoryId, [product])
@@ -27,7 +32,8 @@ export const useProductsStore = defineStore('products', () => {
   }
 
   function getProductsByCategoryId(id: number) {
-    return computed(() => products.value.get(id))
+    console.log(`Getting products for category ${id}`, products.value.get(id))
+    return products.value.get(id)
   }
 
   function setProducts(categoryId: number, newProducts: ProductData[]) {
