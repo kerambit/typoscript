@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer">
+  <div class="bg-white text-center shadow-md rounded-lg overflow-hidden cursor-pointer">
     <img
       src=""
       :alt="alt"

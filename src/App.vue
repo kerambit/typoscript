@@ -1,24 +1,22 @@
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink :to="{ name: 'cart' }">Cart({{ currentCart }})</RouterLink>
+    <div class="container mx-auto px-4">
+      <nav class="flex justify-center space-x-6">
+        <RouterLink to="/" class="text-gray-800 hover:text-blue-500">Categories</RouterLink>
+        <RouterLink :to="{ name: 'cart' }" class="text-gray-800 hover:text-blue-500">
+          Cart({{ currentCart }})
+        </RouterLink>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <main class="container mx-auto px-4 mt-4">
+    <RouterView />
+  </main>
 </template>
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 import { useCategoriesStore } from '@/stores/categories.ts'
 import { getCategories } from '@/api/ecwidApi.ts'
 import { storeId, storeToken } from '@/config.ts'

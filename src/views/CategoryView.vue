@@ -2,7 +2,7 @@
   <div v-if="category !== undefined">
     <h1 class="text-2xl font-bold mb-4">{{ category.name }}</h1>
     <template v-if="products && products.length > 0">
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-1 text-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div
           v-for="product in products"
           :key="product.id"
@@ -12,7 +12,7 @@
             <img
               :src="product.imageUrl"
               :alt="product.name"
-              class="w-full h-48 object-cover mb-4"
+              class="w-full h-auto object-contain mb-4"
             />
             <h2 class="text-xl font-semibold mb-2">{{ product.name }}</h2>
             <p class="text-lg font-bold mb-4">{{ product.price }} $</p>

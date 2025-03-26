@@ -9,7 +9,7 @@
           class="flex justify-between items-center mb-2"
         >
           <div class="flex items-center">
-            <img :src="product.imageUrl" :alt="product.name" class="w-16 h-16 object-cover" />
+            <img :src="product.imageUrl" :alt="product.name" class="w-16 h-16 object-contain" />
             <div class="ml-2">
               <h3 class="text-lg font-semibold">{{ product.name }}</h3>
               <p class="text-gray-600">{{ product.price }} $</p>
@@ -48,7 +48,6 @@ import { useCartStore } from '@/stores/cart.ts'
 import { useProductsStore } from '@/stores/products.ts'
 import { ref, toRaw } from 'vue'
 import type { ProductData } from '@/api/ecwidApi.types.ts'
-import { getProduct } from '@/api/ecwidApi.ts'
 import { storeId, storeToken } from '@/config.ts'
 
 const cartStore = useCartStore()

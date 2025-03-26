@@ -4,7 +4,7 @@
       <div class="md:flex">
         <div class="md:flex-shrink-0">
           <img
-            class="h-48 w-full object-cover md:h-full md:w-48"
+            class="w-full object-cover md:h-full md:w-48"
             :src="productData.imageUrl"
             :alt="productData.name"
           />
