@@ -33,7 +33,7 @@ export const useProductsStore = defineStore('products', () => {
 
   function getProductsByCategoryId(id: number) {
     console.log(`Getting products for category ${id}`, products.value.get(id))
-    return products.value.get(id)
+    return computed(() => products.value.get(id))
   }
 
   function setProducts(categoryId: number, newProducts: ProductData[]) {
