@@ -41,6 +41,10 @@ export const useCartStore = defineStore('cart', () => {
     return computed(() => Array.from(cart.value.values()).reduce((acc, curr) => acc + curr, 0))
   }
 
+  function updateProductQuantity(productId: number, quantity: number) {
+    cart.value.set(productId, quantity)
+  }
+
   watch(
     cart,
     (newCart) => {
@@ -49,5 +53,5 @@ export const useCartStore = defineStore('cart', () => {
     { deep: true },
   )
 
-  return { addProduct, removeProduct, getCart, clearCart, getCartSize }
+  return { addProduct, removeProduct, getCart, clearCart, getCartSize, updateProductQuantity }
 })
