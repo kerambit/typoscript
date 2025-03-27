@@ -18,13 +18,7 @@
           </p>
           <p class="mt-4 text-gray-500" v-html="productData.description"></p>
           <div class="mt-6">
-            <button
-              class="mt-4 bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-700"
-              :class="{ bounce: isBouncing }"
-              @click="addProduct"
-            >
-              Buy now
-            </button>
+            <BuyButton :productId="productData.id" label="Buy now" @add-to-cart="addProduct" />
           </div>
           <div class="mt-6">
             <button
@@ -42,9 +36,9 @@
 <script setup lang="ts">
 import { useProductsStore } from '@/stores/products.ts'
 import { useCartStore } from '@/stores/cart.ts'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { storeId, storeToken } from '@/config.ts'
+import BuyButton from '@/components/forms/BuyButton.vue'
 
 const props = defineProps<{
   id: string
@@ -55,17 +49,12 @@ const router = useRouter()
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
 const productData = productsStore.getProductById(Number(props.id))
-const isBouncing = ref(false)
 
 if (productData.value === undefined) {
   productsStore.restoreProduct(storeId, storeToken, Number(props.id))
 }
 
 const addProduct = () => {
-  isBouncing.value = true
-  setTimeout(() => {
-    isBouncing.value = false
-  }, 500)
   cartStore.addProduct(Number(props.id))
 }
 
@@ -74,18 +63,4 @@ const goBack = () => {
 }
 </script>
 
-<style scoped>
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.bounce {
-  animation: bounce 0.5s;
-}
-</style>
+<style scoped></style>

@@ -17,13 +17,11 @@
             <h2 class="text-xl font-semibold mb-2">{{ product.name }}</h2>
             <p class="text-lg font-bold mb-4">{{ product.price }} $</p>
           </RouterLink>
-          <button
-            class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-            :class="{ bounce: animateButtons[product.id] }"
-            @click="addToCart(product.id)"
-          >
-            Buy
-          </button>
+          <BuyButton
+            :product-id="product.id"
+            label="Buy"
+            @add-to-cart="() => addToCart(product.id)"
+          />
         </div>
       </div>
     </template>
@@ -35,8 +33,9 @@ import { useCategoriesStore } from '@/stores/categories.ts'
 import { useProductsStore } from '@/stores/products.ts'
 import { searchProducts } from '@/api/ecwidApi.ts'
 import { storeId, storeToken } from '@/config.ts'
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useCartStore } from '@/stores/cart.ts'
+import BuyButton from '@/components/forms/BuyButton.vue'
 
 const props = defineProps<{
   id: string
@@ -54,29 +53,9 @@ searchProducts(storeId, storeToken, Number(props.id)).then((data) => {
   productsStore.setProducts(Number(props.id), data.items)
 })
 
-const animateButtons = reactive<{ [key: number]: boolean }>({})
-
 function addToCart(productId: number) {
-  animateButtons[productId] = true
   cartStore.addProduct(productId)
-  setTimeout(() => {
-    animateButtons[productId] = false
-  }, 500)
 }
 </script>
 
-<style scoped>
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.bounce {
-  animation: bounce 0.5s;
-}
-</style>
+<style scoped></style>
