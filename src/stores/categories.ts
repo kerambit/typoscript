@@ -23,5 +23,5 @@ export const useCategoriesStore = defineStore('categories', () => {
     }
   }
 
-  return { getCategories, getCategory, addCategory, setCategories }
+  return { getCategories, getCategory, setCategories }
 })

@@ -10,11 +10,15 @@ const categoriesStore = useCategoriesStore()
   <div class="container mx-auto p-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <RouterLink
-        :to="{ name: 'category', params: { id: category.id } }"
         v-for="[_, category] in categoriesStore.getCategories"
+        :to="{ name: 'category', params: { id: category.id } }"
         :key="category.id"
       >
-        <CategoryInfo :category-name="category.name" :alt="category.alt.main" />
+        <CategoryInfo
+          :category-name="category.name"
+          :alt="category.alt.main"
+          :image-url="category.imageUrl"
+        />
       </RouterLink>
     </div>
   </div>

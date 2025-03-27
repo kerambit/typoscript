@@ -26,6 +26,7 @@ export type CategoryData = {
   seoTitle: string
   seoDescription: string
   alt: Alt
+  imageUrl?: string
 }
 
 export type Alt = {
