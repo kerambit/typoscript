@@ -16,15 +16,21 @@ interface Emits {
   (event: 'on-update-qty', value: number): void
 }
 
-defineProps<{
-  quantity: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    quantity: number
+    step?: number
+  }>(),
+  {
+    step: 5,
+  },
+)
 
 const emits = defineEmits<Emits>()
 
 const getQuantityOptions = (currentQuantity: number) => {
-  const minQuantity = Math.max(1, currentQuantity - 5)
-  const maxQuantity = currentQuantity + 5
+  const minQuantity = Math.max(1, currentQuantity - props.step)
+  const maxQuantity = currentQuantity + props.step
   const options = []
   for (let i = minQuantity; i <= maxQuantity; i++) {
     options.push(i)
