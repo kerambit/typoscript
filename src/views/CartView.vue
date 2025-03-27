@@ -13,22 +13,10 @@
             <div class="ml-2">
               <h3 class="text-lg font-semibold">{{ product.name }}</h3>
               <p class="text-gray-600">{{ product.price }} $</p>
-              <div class="flex items-center">
-                <label for="quantity" class="mr-2 text-gray-600">Quantity:</label>
-                <select
-                  :value="cartItems.get(product.id)"
-                  @change="(event) => updateQuantity(product.id, event)"
-                  class="border border-gray-300 rounded p-1"
-                >
-                  <option
-                    v-for="n in getQuantityOptions(cartItems.get(product.id) || 1)"
-                    :key="n"
-                    :value="n"
-                  >
-                    {{ n }}
-                  </option>
-                </select>
-              </div>
+              <QuantitySelector
+                :quantity="cartItems.get(product.id) || 1"
+                @on-update-qty="(newQuantity) => updateQuantity(product.id, newQuantity)"
+              />
             </div>
           </div>
           <button
@@ -64,6 +52,7 @@ import { useProductsStore } from '@/stores/products.ts'
 import { ref, toRaw } from 'vue'
 import type { ProductData } from '@/api/ecwidApi.types.ts'
 import { storeId, storeToken } from '@/config.ts'
+import QuantitySelector from '@/components/forms/QuantitySelector.vue'
 
 const cartStore = useCartStore()
 const productsStore = useProductsStore()
@@ -108,18 +97,7 @@ const placeOrder = () => {
   isOrderPlaced.value = true
 }
 
-const updateQuantity = (productId: number, event: Event) => {
-  if (!(event.target instanceof HTMLSelectElement)) return
-  cartStore.updateProductQuantity(productId, Number(event.target.value))
-}
-
-const getQuantityOptions = (currentQuantity: number) => {
-  const minQuantity = Math.max(1, currentQuantity - 5)
-  const maxQuantity = currentQuantity + 5
-  const options = []
-  for (let i = minQuantity; i <= maxQuantity; i++) {
-    options.push(i)
-  }
-  return options
+const updateQuantity = (productId: number, newQty: number) => {
+  cartStore.updateProductQuantity(productId, newQty)
 }
 </script>
